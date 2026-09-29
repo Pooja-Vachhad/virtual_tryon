@@ -1,5 +1,7 @@
 # Virtual Lip Try-On
 
+**Live Demo:** [https://virtual-tryon-6b5q.onrender.com](https://virtual-tryon-6b5q.onrender.com)
+
 A virtual try-on app that detects the lip region on a face and applies lipstick color + gloss in real time, on photos and video.
 
 <img width="1000" height="750" alt="Image" src="https://github.com/user-attachments/assets/1799ccc4-82cc-4a2f-a559-e4b91ad81c51" />
