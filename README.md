@@ -13,12 +13,12 @@ A virtual try-on app that detects the lip region on a face and applies lipstick 
 ## Model
 
 - **Backbone:** MobileNetV3-Small (pretrained on ImageNet), chosen for fast, lightweight inference on edge devices.
-- **Decoder:** Custom 3-layer U-Net style decoder with skip connections, for precise lip-edge segmentation.
+- **Decoder:** Custom 4-layer U-Net style decoder with skip connections, for precise lip-edge segmentation.
 - **Loss:** Dice + BCE loss, to handle the class imbalance between lips (small region) and background.
 
 **Results:**
-- Test Dice score: **0.9656**
-- Test loss: **0.0379**
+- Test Dice score: **0.9656** (higher is better)
+- Test loss: **0.0379** (BCE + Dice loss, lower is better)
 
 
 <img width="590" height="390" alt="Image" src="https://github.com/user-attachments/assets/b32d1cc1-30d9-4de9-88db-6a09f1a0e274" />
@@ -46,3 +46,7 @@ PyTorch • ONNX Runtime • FastAPI • OpenCV • Docker
 ## Demo
 https://github.com/user-attachments/assets/f7f64588-ae71-4fcf-aa4b-306e4f084d33
 
+
+## Performance (Colab CPU)
+- Full pipeline (segmentation + lipstick + gloss): ~4 s/image
+- Video: ~6-8 min for the 2 test videos (depends on resolution and length)
