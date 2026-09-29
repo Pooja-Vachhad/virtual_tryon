@@ -39,7 +39,7 @@ A virtual try-on app that detects the lip region on a face and applies lipstick 
 ## Tech Stack
 PyTorch • ONNX Runtime • FastAPI • OpenCV • Docker
 
-## Limitations
+
 ## Limitations
 - Trained for a limited number of epochs due to GPU constraints.
 - Poor generalization to darker skin tones: in an informal test, the lip
