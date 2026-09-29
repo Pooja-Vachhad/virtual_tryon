@@ -2,6 +2,8 @@
 
 A virtual try-on app that detects the lip region on a face and applies lipstick color + gloss in real time, on photos and video.
 
+<img width="1000" height="750" alt="Image" src="https://github.com/user-attachments/assets/1799ccc4-82cc-4a2f-a559-e4b91ad81c51" />
+
 ## How it works
 
 1. A U-Net style model (MobileNetV3-Small encoder + custom decoder) segments the lip region from the image.
@@ -18,8 +20,12 @@ A virtual try-on app that detects the lip region on a face and applies lipstick 
 - Test Dice score: **0.9656**
 - Test loss: **0.0379**
 
-![Dice curve](assets/dice_curve.png)
-![Loss curve](assets/loss_curve.png)
+<img width="990" height="1928" alt="Image" src="https://github.com/user-attachments/assets/e905e3e9-fdf2-4bb5-9841-45e42f4626ce" />
+
+
+<img width="590" height="390" alt="Image" src="https://github.com/user-attachments/assets/b32d1cc1-30d9-4de9-88db-6a09f1a0e274" />
+
+<img width="590" height="390" alt="Image" src="https://github.com/user-attachments/assets/1c9311da-9841-4602-a1a5-811fff9f6e3e" />
 
 ## Deployment
 
