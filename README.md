@@ -40,13 +40,14 @@ A virtual try-on app that detects the lip region on a face and applies lipstick 
 PyTorch • ONNX Runtime • FastAPI • OpenCV • Docker
 
 ## Limitations
+## Limitations
 - Trained for a limited number of epochs due to GPU constraints.
-- Accuracy drops on some skin tones and lighting conditions not well represented in training data — a direction for future improvement.
+- Poor generalization to darker skin tones: in an informal test, the lip
+  region was detected correctly on only 1 of 5 dark-skin images. The training
+  data is not diverse enough. Improving this is the top priority for future work.
 
 ## Demo
 https://github.com/user-attachments/assets/f7f64588-ae71-4fcf-aa4b-306e4f084d33
 
 
-## Performance (Colab CPU)
-- Full pipeline (segmentation + lipstick + gloss): ~4 s/image
-- Video: ~6-8 min for the 2 test videos (depends on resolution and length)
+
