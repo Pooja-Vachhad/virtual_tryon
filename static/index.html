@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Virtual Lip Try-On</title>
+  <style>
+    body { font-family: sans-serif; max-width: 500px; margin: 40px auto; }
+    .samples img { width: 80px; height: 80px; object-fit: cover; margin: 5px;
+                   cursor: pointer; border: 3px solid transparent; border-radius: 8px; }
+    .samples img.selected { border-color: #cc7c22; }
+    #result { max-width: 100%; margin-top: 15px; border-radius: 8px; }
+    button { padding: 8px 20px; margin-top: 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Virtual Lip Try-On</h2>
+
+  <p><b>Choose a sample photo</b> (or upload your own below)</p>
+  <div class="samples">
+    <img src="/static/samples/sample1.jpg" onclick="selectSample(this, '/static/samples/sample1.jpg')">
+    <img src="/static/samples/sample2.jpg" onclick="selectSample(this, '/static/samples/sample2.jpg')">
+    <img src="/static/samples/sample3.jpg" onclick="selectSample(this, '/static/samples/sample3.jpg')">
+  </div>
+
+  <p><b>Or upload your own:</b></p>
+  <input type="file" id="imageFile" accept="image/*" onchange="clearSample()"><br><br>
+
+  <label>Lipstick color: </label>
+  <input type="color" id="colorPicker" value="#cc7c22"><br><br>
+
+  <label>Strength: </label>
+  <input type="range" id="strength" min="0" max="1" step="0.05" value="0.6">
+  <span id="strengthVal">0.6</span><br><br>
+
+  <label>Gloss: </label>
+  <input type="range" id="gloss" min="0" max="100" step="5" value="30">
+  <span id="glossVal">30</span><br><br>
+
+  <button onclick="submitForm()">Apply Lipstick</button>
+  <br>
+  <img id="result">
+
+  <script>
+    let selectedSampleUrl = "/static/samples/sample1.jpg";
+    document.querySelector('.samples img').classList.add('selected'); // pick sample1 by default
+
+    function selectSample(el, url) {
+      document.querySelectorAll('.samples img').forEach(i => i.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedSampleUrl = url;
+      document.getElementById('imageFile').value = "";  // clear any manual upload
+    }
+
+    function clearSample() {
+      selectedSampleUrl = null;
+      document.querySelectorAll('.samples img').forEach(i => i.classList.remove('selected'));
+    }
+
+    document.getElementById('strength').oninput = e =>
+      document.getElementById('strengthVal').innerText = e.target.value;
+    document.getElementById('gloss').oninput = e =>
+      document.getElementById('glossVal').innerText = e.target.value;
+
+    async function submitForm() {
+      const fileInput = document.getElementById('imageFile');
+      const hex = document.getElementById('colorPicker').value;
+      const r = parseInt(hex.substr(1, 2), 16);
+      const g = parseInt(hex.substr(3, 2), 16);
+      const b = parseInt(hex.substr(5, 2), 16);
+
+      const formData = new FormData();
+
+      if (fileInput.files.length > 0) {
+        formData.append("file", fileInput.files[0]);          // user's own upload
+      } else if (selectedSampleUrl) {
+        const resp = await fetch(selectedSampleUrl);
+        const blob = await resp.blob();
+        formData.append("file", blob, "sample.jpg");          // clicked sample photo
+      } else {
+        alert("Pick a sample photo or upload one.");
+        return;
+      }
+
+      formData.append("r", r);
+      formData.append("g", g);
+      formData.append("b", b);
+      formData.append("strength", document.getElementById('strength').value);
+      formData.append("gloss", document.getElementById('gloss').value);
+
+      const response = await fetch("/tryon/image", { method: "POST", body: formData });
+      const outBlob = await response.blob();
+      document.getElementById('result').src = URL.createObjectURL(outBlob);
+    }
+  </script>
+</body>
+</html>
